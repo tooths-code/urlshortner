@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body {
+        font-family: monospace;
+    }
+
+    input[type="text"] {
+        font-family: monospace;
+        padding: 0.3em 0.8em;
+    }
+
+    button {
+        padding: 0.3em 0.8em;
+        border: solid;
+        background: #008bff;
+        border-color: #008bff;
+        color: white;
+    }
+
+    input[type="text"] {
+        font-family: monospace;
+        padding: 0.3em 0.8em;
+        border: solid;
+        border-width: 1px 0px 1px 1px;
+        border-color: grey;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+    .forms {
+        display: flex;
+    }
+
+    .datatable {
+        margin-top: 3em;
+    }
+
+    td {
+        padding: 0.3pc 1pc;
+    }
+
+    th {
+        padding: 0.3pc 1pc;
+    }
+  
+    </style>
+</head>
+<body>
+    <h1>URL Shortner</h1>
+    <% if (locals.userName) { %>
+        <h2>Username: <%=userName%></h2>
+    <% } %>
+
+    <% if (locals.data) { %>
+        <p>Total URLs: <%=data.length%></p>
+    <% } %>
+    
+    <% if(locals.id){%>
+        <h3>Generated:<a href="http://localhost:3000/<%=locals.id%>" target="_blank"> http://localhost:3000/<%=locals.id%> </a></h3>
+    <% }%>
+    <form method="POST" action="/urls/generate">
+        <label>Enter Original URL</label>
+        <div class="forms">
+            <input type="text" placeholder="enter your URL" name="url">
+            <button type="submit">Generate</button>
+        </div>
+       
+    </form>
+    <div class="datatable">
+        <% if (locals.data) { %>
+            <table>
+                <thead>
+                    <th>S.No</th>
+                    <th>ShortId</th>
+                    <th>RedirectURL</th>
+                    <th>Clicks</th>
+                </thead>
+                <tbody>
+                    <% data.forEach((url,index) => { %>
+                        <tr>
+                            <td><%= index+1 %></td>
+                            <td><a href="http://localhost:3000/<%=url.shortId%>" target="_blank"><%= url.shortId %></a></td>
+                            <td><%= url.redirectUrl %></td>
+                            <td><%= url.visitHistory.length %></td>
+                        </tr>
+                    <% }) %>
+    
+                </tbody>
+                
+            </table>
+        <% } %>
+        
+    </div>
+
+</body>
+</html>
